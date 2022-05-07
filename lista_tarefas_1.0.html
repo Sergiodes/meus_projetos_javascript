@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <title>Estudo de Inputs</title>
+        <style type="text/css" media="all">
+            
+            body, .conteiner,  #div1 {
+                display: block;
+            }
+
+            body, .conteiner {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            body {
+                width: 500px;
+                height: 500px;
+                background: #67d8ad;
+                font-family: sans-serif;
+            }
+
+            .conteiner {
+                width: 400px;
+                height: 27px;
+                position: relative;
+            }
+
+            input.digite, #btn {
+                position: absolute;
+                border-radius: 5px;
+            }
+
+            input.digite {
+                width: 53%;
+                height: 25px;
+                border: 0px;
+                font-size: 14px;
+                left: 25%;
+            }
+
+            #btn {
+                width: 20%;
+                height: 25px;
+                right: 0;
+                top: 1px;
+                background-color: #008CBA;
+                color: #fff;
+            }
+
+            h1, #lbl_nova_tarefa {
+                text-align: center;
+            }
+
+            #lbl_nova_tarefa {
+                width: 25%;
+                height: 25px;
+                position: absolute;
+                left: 0;
+                top: 1px;
+                line-height: 24px;
+            }
+
+            #div1 {
+                margin: auto;
+                width: 80%;
+                height: 25px;
+                margin-top: 10px;
+            }
+            .fundo_branco {
+                background-color: #fff;
+                height: 25px;
+                padding-top: 5px;
+            }
+
+        </style>
+        
+    </head>
+    <body>
+        <h1>Lista de Tarefas</h1>
+        <div class="conteiner">
+            <label for="tarefa" id="lbl_nova_tarefa"><b>Nova Tarefa:</b></label>
+            <input id="tarefa" type="text" class="digite"/>
+            <input id="btn" type="button"value="Adicione"onclick="add_tarefa()"></input>
+        </div>
+        <div id="div1"></div>
+        <script>
+           document.getElementById("tarefa").focus();
+            let count = 0;
+            let ids = [];
+            
+            document.addEventListener("keypress", (e)=>{
+                let input = e.keyCode;
+                let entrada = document.querySelector("#tarefa");
+
+                if(input == 13) {
+                    if(entrada.value != ""){
+                        add_tarefa();
+                    } else {
+                        alert("Nenhuma tarefa foi digitada. Por favor, digite uma nova tarefa no campo ao lado.");
+                    }
+                }
+                
+            })
+
+            let add_tarefa = function() {
+                
+                let id = count;
+                ids[count] = id;
+                
+                let texto = document.querySelector("#tarefa");
+                
+                let lista_tarefas = document.querySelector("#div1");
+                if(texto.value != "") {
+                    lista_tarefas.insertAdjacentHTML(
+                        "beforeend", 
+                        "<div class='fundo_branco'><input type='checkbox' id="+id+
+                        " onclick='editar_tarefa()'><label for="+id+
+                        " id="+'lbl'+id+">"+
+                            texto.value+
+                            "</label><div/></br>"
+                        );
+                    texto.value = "";
+                    texto.focus();
+                    count++;
+                } else {
+                    alert("Nenhuma tarefa foi digitada. Por favor, digite uma nova tarefa no campo ao lado.");
+                    texto.focus();
+                }
+                
+            };
+            
+            let editar_tarefa = function() {
+
+               for(i in ids){
+
+                   let inp = document.getElementById(ids[i]);
+                   let lbl = document.getElementById("lbl"+ids[i])
+    
+                   if(inp.checked){
+
+                       lbl.style.color = "gray";
+                       lbl.style.textDecoration = "line-through";
+
+                   } else {
+
+                       lbl.style.color = "black";
+                       lbl.style.textDecoration = "none";
+
+                   }
+               }
+             
+            }
+        </script>
+    </body>
+</html>
